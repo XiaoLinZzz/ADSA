@@ -77,6 +77,24 @@ string sub(string a,string b,int Base){
     return diff;
 }
 
+string multiplication(string a, string b,int Base){
+    string result; int carry = 0;
+    for(int i = a.size()-1;i >= 0 ;i--){
+        int mul = (a[i]-'0') * (b[0]-'0') + carry;
+        if(mul >= Base){
+            result.append(to_string(mul % Base));
+            carry = mul / Base;
+        }
+        else{
+            result.append(to_string(mul));
+            carry = 0;
+        } 
+    }
+    if(carry != 0) 
+        result.append(to_string(carry));
+    reverse(result.begin(), result.end());
+    return result;
+}
 
 string Karatsuba(string a, string b, int Base)
 {
@@ -88,14 +106,14 @@ string Karatsuba(string a, string b, int Base)
 	while (b.size() < n)
 		b.insert(0, "0");
 
-	if (n == 1)
-		return to_string((a[0]-'0') * (b[0]-'0'));
+    if (n == 1)
+        return multiplication(a, b, Base);
 
     int k = n/2;
 
-    string a0 = a.substr(0, k);     // left one
+    string a0 = a.substr(0, k);             // left one
     string a1 = a.substr(k, n-a0.size());   // right one
-    string b0 = b.substr(0, k);     // left one
+    string b0 = b.substr(0, k);             // left one
     string b1 = b.substr(k, n-b0.size());   // right one
 
     string p0 = Karatsuba(a0, b0, Base);
@@ -112,7 +130,6 @@ string Karatsuba(string a, string b, int Base)
 
     return result.erase(0, min(result.find_first_not_of('0'), result.size()-1));
 }
-
 int main()
 {
 	string a, b;
@@ -120,6 +137,6 @@ int main()
 	cin >> a >> b >> Base;
 
 	cout << Addition(a, b, Base) << " " << Karatsuba(a, b, Base) << endl;
-	// cout << sub(a, b, Base) << endl;
+	
 	return 0;
 }
