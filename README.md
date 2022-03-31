@@ -9,8 +9,8 @@
 
 ### task 2:
 - Initializing an empty AVL tree
+- left rotate / right rotate
+- Insert and delete
 - Achieve postorder 	---> *(left, right, root)*
 - Achieve inorder   	-----> *(left, root, right)*
 - Achieve preorder  	---> *(root, left, right)*
-- left rotate / right rotate
-- Insert and delete
