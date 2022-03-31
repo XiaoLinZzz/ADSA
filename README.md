@@ -1,8 +1,10 @@
 # Algorithm & Data Structure Analysis
 
 ### task 1: 
-- **School Method** for Integer Addition 
-- **Karatsuba Algorithm** for Integer Multiplication
+- **School Method** for Integer(string) Addition 
+- **School Method** for Integer(string) subtraction
+- **School Method** for Integer(string) Multiplication
+- **Karatsuba Algorithm** for Integer(string) Multiplication
 
 
 ### task 2:
