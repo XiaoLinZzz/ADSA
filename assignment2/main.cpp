@@ -2,39 +2,83 @@
 using namespace std;
  
 // An AVL tree node
-class Node
+
+struct node
 {
-    int key;
-    Node *left;
-    Node *right;
-    int height;
+    int data;
+    struct *left, *right;
 };
 
-int height(Node *N)
-{
-    if (N == NULL)
-        return 0;
-    return N -> height;
-}
-
 // new node
-Node* newNode(int key)
+Node* newNode(int data)
 {
-    Node* node = new Node();
-    node->key = key;
-    node->left = NULL;
-    node->right = NULL;
-    node->height = 1; 
+    Node* temp = new Node;
+    temp -> data = data;
+    temp -> left = NULL;
+    temp -> right = NULL;
 
-    return(node);
+    return temp;
 }
 
-// find node
-int 
+// postorder （left, right, root)
+void post_order(struct Node* node)
+{
+    if (node == NULL)
+        return;
 
+    post_order(node->left);
 
-// Tree insert
+    post_order(node->right);
+
+    cout << node->data << " ";
+}
+
+// inorder (left, root, right)
+void in_order(strcut Node* node)
+{
+    if (node == NULL)
+        return;
+    
+    in_order(node->left);
+
+    cout << node->data << " ";
+
+    in_order(node->right);
+}
+
+// preorder (root, left, right)
+void pre_order(strcut Node* node)
+{
+    if (node == NULL)
+        return;
+
+    cout << node->data << " ";
+
+    pre_order(node->left);
+
+    pre_order(node->right);
+}
+
+// Tree insert 
+struct insert(struct Node* node, int data)
+{
+    if (node == NULL)
+        return newNode(data);
+
+    if (data < node->data)
+        node->left = insert(node->left, data)
+    else
+        node->right = insert(node->right, data)
+
+    return node;
+};
 
 
 // Tree delete
 
+
+// main 
+int main()
+{
+
+}

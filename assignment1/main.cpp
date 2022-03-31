@@ -138,6 +138,6 @@ int main()
 	cin >> a >> b >> Base;
 
 	cout << Addition(a, b, Base) << " " << Karatsuba(a, b, Base) << endl;
-	// cout << sub(a, b, Base) << endl;
+	
 	return 0;
 }
