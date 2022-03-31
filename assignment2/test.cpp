@@ -181,42 +181,9 @@ int main()
     
     Node *root = NULL;
 
-    string S, T;   
-    getline(cin, S); 
-    stringstream X(S); 
-   
-    vector<string> v;
+    root = insert_node(root, 1);
+    root = insert_node(root, 2);
+    root = insert_node(root, 3);
 
-    while (getline(X, T, ' ')) {  
-        v.push_back(T);
-    }  
-
-    int length = v.size();
-    for (int i = 0; i < length; i++)
-    {
-        string moves = v[i];
-
-        if (moves[0] == 'A')
-        {
-            int len = moves.size();
-            char d = moves.substr[1, len];
-            int data = d - '0';
-            // root = insert_node(root, data);
-            cout << data << endl;
-        }
-        
-        if (moves == "IN") {
-            in_order(root);
-        }
-
-        if (moves == "PRE") {
-            pre_order(root);
-        }
-
-        if (moves == "POST"){
-            post_order(root);        
-        }
-    }
-
-    return 0;
+    in_order(root);
 }
