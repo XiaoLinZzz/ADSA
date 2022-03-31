@@ -60,7 +60,7 @@ void pre_order(strcut Node* node)
 }
 
 // Tree insert 
-struct insert(struct Node* node, int data)
+struct node* insert(struct Node* node, int data)
 {
     if (node == NULL)
         return newNode(data);
@@ -73,9 +73,11 @@ struct insert(struct Node* node, int data)
     return node;
 };
 
-
 // Tree delete
-
+struct node* delete(strcut Node* node, int data)
+{
+    
+}
 
 // main 
 int main()
