@@ -124,23 +124,71 @@ Node* insert_node(Node *node, int data)
 }
 
 // delete node
-/* 
 Node* delete_node(Node *node, int data)
 {
     if (node == NULL)
         return node;
 
     if (data < node->data)
-        node->left = delete_node(node->left, data)
+        node->left = delete_node(node->left, data);
     else if (data > node->data)
-        nodpe->right = delete_node(node->right, data)
-    else    
-        return node;
+        node->right = delete_node(node->right, data);
+    else   
+    {
+        if (node->left == NULL) || (node->right == NULL)
+        {
+            Node *tmp = new Node();
+
+            if (tmp == NULL) {
+                tmp = node;
+                node = NULL;
+            }
+            else {
+                *node = *tmp;
+            }
+
+            free(tmp);
+        }
+        else
+        {
+            Node *tmp = // ?
+
+            node->data = tmp->data;
+
+            node->right = delete_node(tmp->right, tmp->left);
+        }
+    } 
+
 
     node->height = 1 + max(height(node->left), height(node->right));
 
+    int balance = get_balance(node);
+
+    // left left
+    if (balance > 1 && data < node->left->data)
+        return right_rotate(node);
+
+    // right right
+    if (balance < -1 && data > node->right->data)
+        return left_rotate(node);
+
+    // left right
+    if (balance > 1 && data > node->left->data) {
+        node->left = left_rotate(node->left);
+
+        return right_rotate(node);
+    }
+
+    // right left
+    if (balance < -1 && data < node->right->data) {
+        node->right = right_rotate(node->right);
+
+        return left_rotate(node);
+    }
+
+    return node;
+
 }
-*/
 
 // postorder （left, right, root)
 void post_order(struct Node* node)
@@ -151,6 +199,9 @@ void post_order(struct Node* node)
         post_order(node->right);
         cout << node->data << " ";
     }
+    else {
+        return ;
+    }    
 }
 
 // inorder (left, root, right)
@@ -162,6 +213,9 @@ void in_order(struct Node* node)
         cout << node->data << " ";
         in_order(node->right);
     }
+    else {
+        return ;
+    }    
 }
 
 // preorder (root, left, right)
@@ -173,6 +227,9 @@ void pre_order(struct Node* node)
         pre_order(node->left);
         pre_order(node->right);
     }
+    else {
+        return ;
+    }    
 }
 
 // main function
@@ -196,13 +253,24 @@ int main()
     {
         string moves = v[i];
 
+        // Aint insert
         if (moves[0] == 'A')
         {
             int len = moves.size();
-            char d = moves.substr[1, len];
-            int data = d - '0';
-            // root = insert_node(root, data);
-            cout << data << endl;
+            string d = moves.substr(1, len);
+            int data = stoi(d);
+
+            root = insert_node(root, data);
+        }
+        
+        // Dint delete
+        if (moves[0] == 'D')
+        {
+            int len = moves.size();
+            string d = moves.substr(1, len);
+            int data = stoi(d);
+
+            root = delete_node(root, data);
         }
         
         if (moves == "IN") {
