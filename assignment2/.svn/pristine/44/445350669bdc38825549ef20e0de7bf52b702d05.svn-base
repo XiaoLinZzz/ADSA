@@ -16,8 +16,6 @@ class Node
     int height;
 };
 
-int max(int a, int b);
-
 // new node
 Node* newNode(int data)
 {
@@ -39,44 +37,39 @@ int height(Node *node)
     return node->height;
 }
 
-int max(int a, int b)
-{
-    return (a > b)? a : b;
-}
-
 // right rotate
-Node* right_rotate(Node *y)
+Node* right_rotate(Node *right)
 {
-    Node *x = y->left;
-    Node *T2 = x->right;
+    Node *left = right->left;
+    Node *T2 = left->right;
 
-    // Perform rotation
-    x->right = y;
-    y->left = T2;
+    // do right roatate
+    left->right = right;
+    right->left = T2;
 
-    // Update heights
-    y->height = max(height(y->left), height(y->right)) + 1;
-    x->height = max(height(x->left), height(x->right)) + 1;
+    // update heights
+    right->height = max(height(right->left), height(right->right)) + 1;
+    left->height = max(height(left->left), height(left->right)) + 1;
 
-    // Return new root
-    return x;
+    return left;
 }
-
 
 // left rotate
-Node* left_rotate(Node *x)
+Node* left_rotate(Node *left)
 {
-    Node *y = x->right;
-    Node *T2 = y->left;
+    Node *right = left->right;
+    Node *T2 = right->left;
 
-    // Perform rotation
-    y->left = x;
-    x->right = T2;
+    // do left rotate
+    right->left = left;
+    left->right = T2;
 
-    x->height = max(height(x->left), height(x->right)) + 1;
-    y->height = max(height(y->left), height(y->right)) + 1;
+    // update heights
+    right->height = max(height(right->left), height(right->right)) + 1;
+    left->height = max(height(left->left), height(left->right)) + 1;
 
-    return y;
+
+    return right;
 }
 
 // get balance (0, 1 or -1)
@@ -182,22 +175,22 @@ Node* delete_node(Node *node, int data)
     int balance = get_balance(node);
 
     // left left
-    if (balance > 1 && get_balance(node->left) >= 0)
+    if (balance > 1 && data < node->left->data)
         return right_rotate(node);
 
     // right right
-    if (balance < -1 && get_balance(node->right) <= 0)
+    if (balance < -1 && data > node->right->data)
         return left_rotate(node);
 
     // left right
-    if (balance > 1 && get_balance(node->left) < 0) {
+    if (balance > 1 && data > node->left->data) {
         node->left = left_rotate(node->left);
 
         return right_rotate(node);
     }
 
     // right left
-    if (balance < -1 && get_balance(node->right) > 0) {
+    if (balance < -1 && data < node->right->data) {
         node->right = right_rotate(node->right);
 
         return left_rotate(node);
@@ -208,7 +201,7 @@ Node* delete_node(Node *node, int data)
 
 
 // postorder （left, right, root)
-void post_order(Node* node)
+void post_order(struct Node* node)
 {
     if (node != NULL)
     {
@@ -217,12 +210,13 @@ void post_order(Node* node)
         cout << node->data << " ";
     }
     else {
+        // string str =  "EMPTY";
         return ;
     }    
 }
 
 // inorder (left, root, right)
-void in_order(Node* node)
+void in_order(struct Node* node)
 {
     if (node != NULL)
     {
@@ -237,7 +231,7 @@ void in_order(Node* node)
 }
 
 // preorder (root, left, right)
-void pre_order(Node* node)
+void pre_order(struct Node* node)
 {
     if (node != NULL)
     {
@@ -246,6 +240,7 @@ void pre_order(Node* node)
         pre_order(node->right);
     }
     else {
+        // cout << "EMPTY" << endl;
         return ;
     }    
 }

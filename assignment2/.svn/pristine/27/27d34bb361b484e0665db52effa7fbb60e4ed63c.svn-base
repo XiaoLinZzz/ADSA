@@ -217,6 +217,7 @@ void post_order(Node* node)
         cout << node->data << " ";
     }
     else {
+        // string str =  "EMPTY";
         return ;
     }    
 }
@@ -246,6 +247,7 @@ void pre_order(Node* node)
         pre_order(node->right);
     }
     else {
+        // cout << "EMPTY" << endl;
         return ;
     }    
 }

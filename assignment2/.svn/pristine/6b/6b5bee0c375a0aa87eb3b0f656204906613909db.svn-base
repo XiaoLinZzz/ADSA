@@ -208,12 +208,12 @@ Node* delete_node(Node *node, int data)
 
 
 // postorder （left, right, root)
-void post_order(Node* node)
+void pre_order(Node* node)
 {
     if (node != NULL)
     {
-        post_order(node->left);
-        post_order(node->right);
+        pre_order(node->left);
+        pre_order(node->right);
         cout << node->data << " ";
     }
     else {
@@ -237,13 +237,13 @@ void in_order(Node* node)
 }
 
 // preorder (root, left, right)
-void pre_order(Node* node)
+void post_order(Node* node)
 {
     if (node != NULL)
     {
         cout << node->data << " ";
-        pre_order(node->left);
-        pre_order(node->right);
+        post_order(node->left);
+        post_order(node->right);
     }
     else {
         return ;

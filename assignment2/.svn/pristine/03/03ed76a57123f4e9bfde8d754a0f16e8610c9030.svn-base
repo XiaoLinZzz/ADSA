@@ -298,14 +298,14 @@ int main()
                 cout << "EMPTY" << endl;
         }
 
-        if (moves == "PRE") {
+        else if (moves == "PRE") {
             pre_order(root);
 
             if (root == NULL)
                 cout << "EMPTY" << endl;
         }
 
-        if (moves == "POST"){
+        else if (moves == "POST"){
             post_order(root);   
 
             if (root == NULL)

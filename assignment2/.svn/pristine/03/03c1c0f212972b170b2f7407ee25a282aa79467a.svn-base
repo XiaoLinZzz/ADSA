@@ -70,13 +70,13 @@ Node* left_rotate(Node *x)
     Node *T2 = y->left;
 
     // Perform rotation
-    y->left = x;
-    x->right = T2;
+    x->right = y;
+    y->left = T2;
 
-    x->height = max(height(x->left), height(x->right)) + 1;
     y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
 
-    return y;
+    return x;
 }
 
 // get balance (0, 1 or -1)
@@ -217,6 +217,7 @@ void post_order(Node* node)
         cout << node->data << " ";
     }
     else {
+        // string str =  "EMPTY";
         return ;
     }    
 }
@@ -246,6 +247,7 @@ void pre_order(Node* node)
         pre_order(node->right);
     }
     else {
+        // cout << "EMPTY" << endl;
         return ;
     }    
 }

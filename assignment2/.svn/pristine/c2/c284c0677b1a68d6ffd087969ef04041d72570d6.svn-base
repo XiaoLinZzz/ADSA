@@ -208,7 +208,7 @@ Node* delete_node(Node *node, int data)
 
 
 // postorder （left, right, root)
-void post_order(Node* node)
+void pre_order(Node* node)
 {
     if (node != NULL)
     {
@@ -237,7 +237,7 @@ void in_order(Node* node)
 }
 
 // preorder (root, left, right)
-void pre_order(Node* node)
+void post_order(Node* node)
 {
     if (node != NULL)
     {
