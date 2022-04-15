@@ -181,22 +181,22 @@ Node* delete_node(Node *node, int data)
 
     int balance = get_balance(node);
 
-    
+    // left left
     if (balance > 1 && get_balance(node->left) >= 0)
         return right_rotate(node);
 
-    
+    // right right
     if (balance < -1 && get_balance(node->right) <= 0)
         return left_rotate(node);
 
-    
+    // left right
     if (balance > 1 && get_balance(node->left) < 0) {
         node->left = left_rotate(node->left);
 
         return right_rotate(node);
     }
 
-    
+    // right left
     if (balance < -1 && get_balance(node->right) > 0) {
         node->right = right_rotate(node->right);
 
@@ -282,7 +282,7 @@ int main()
         }
         
         // Dint delete
-        else if (moves[0] == 'D')
+        if (moves[0] == 'D')
         {
             int len = moves.size();
             string d = moves.substr(1, len);
@@ -298,14 +298,14 @@ int main()
                 cout << "EMPTY" << endl;
         }
 
-        else if (moves == "PRE") {
+        if (moves == "PRE") {
             pre_order(root);
 
             if (root == NULL)
                 cout << "EMPTY" << endl;
         }
 
-        else if (moves == "POST"){
+        if (moves == "POST"){
             post_order(root);   
 
             if (root == NULL)
