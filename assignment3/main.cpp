@@ -1,8 +1,18 @@
-#include<iostream>
-#include<string>
-#include<sstream>
-#include<vector>
+#include <iostream>
+#include <string.h>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <vector>
 using namespace std;
+
+int hash_function(string s)
+{   
+    // get last elememnt of string
+    char c = s[s.length()-1];
+    return c - 97;
+}
+
 
 int main()
 {
@@ -30,6 +40,7 @@ int main()
         // get order insert ("A")
         if (v[i][0] == 'A')
         {   
+            int out = 0;
             // remove the "A"
             v[i] = v[i].erase(0,1);
 
@@ -67,9 +78,12 @@ int main()
             // remove the "D"
             v[i] = v[i].erase(0,1);
 
-            // get the letter
+            // get the last letter
             char a = v[i][v[i].size()-1];
-
+            
+            // get index
+            int index = hash_function(v[i]);
+            
             // find the slot of the letter
             int check = 0;
             for(int j = 0; j < 26; j++){
@@ -94,3 +108,5 @@ int main()
 
     return 0;
 }
+
+// test: Aboa Acobra Aabba Aclassic Abee Abed Dcobra

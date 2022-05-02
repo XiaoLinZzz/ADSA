@@ -4,78 +4,114 @@
 #include<vector>
 using namespace std;
 
-bool checklower(string a){ // use to check input is lower case 
-    bool check = true;
-    for(int i = 1; i < a.size(); i++){
-        if(a[i]<'a' || a[i] > 'z'){
-            check = false;
-        }
-    }
-    return check;
+int hash_function(char c)
+{
+    return c - 'a';
 }
 
-int main(){
-    string out[26];
-    string statues[26];
-    string read;
-    getline(cin,read);
-    string result;
-    stringstream input(read);
+void insert(char element)
+{
+    int i = hash_function(element);
+    if (slot[i] == NULL) {
+        slot[i] = element;
+        status[i] = "occupied";
+    } else {
+        i++;
+        insert(element);
+    }
+}
 
-    for(int i = 0; i < 26; i++){ //make the empty array: out 's statues into never use 
+void remove(char element)
+{
+    int i = hash_function(element);
+    if (slot[i] == NULL)
+        return;
+    else if (slot[i] != element) {
+        i++;
+        remove(element);
+    } else {
+        slot[i] = NULL;
+        status[i] = "tombstone";
+    }
+}
+
+void repair(char a, int i)
+{
+    // set index
+    int j = i + 1;
+    while (slot[j] != NULL) {
+        if (a-97+j >= index) {
+            j++;
+        } else {
+            slot[i] = slot[j];
+            slot[j] = NULL;
+            i = j;
+            repair(a, i);
+        }
+    }
+}
+
+int main()
+{
+    string statues[26];
+    string slot[26];
+    string S, T;
+    getline(cin, S); 
+    stringstream X(S); 
+
+    // initialize the statues
+    for(int i = 0; i < 26; i++){
         statues[i] = "never used";
     }
-    
-    while(input>>result){ // read the input 
-        bool repeat = false;    
-        if(result.size() <= 11 && checklower(result) == true){ //if the input size <=11 and is lower case it can read 
-            char a;
-            if(result[0] == 'A'){    // add the letter 
-                int check = 0;
-                result = result.erase(0,1); // make Aaaa to aaa
-                for(int i = 0;i < 26;i++){  //check have repeat or not 
-                    if(out[i] == result ){
-                        repeat = true;
-                    }
-                }
-                if(repeat == false){    //if dont have repeat read 
-                    a = result[result.size()-1]; 
-                    for(int i = 0; i < 26; i++ ){
-                        if(a-97+i <= 25){   //add it in to the out array if there have space 
-                            if(out[a-97+i].size() == 0){
-                                out[a-97+i] = result;
-                                statues[a-97+i] = "occupied"; 
-                                break;
-                            }
-                        }else { //if the array is not enough long start at begin to find the space 
-                            if(out[check].size() == 0){
-                                out[check] = result;
-                                statues[check] = "occupied"; 
-                                break;
-                            }else{
-                                check ++;
-                            }
-                        }
-                    }
-                }           
-            }else {
-                result = result.erase(0,1); //make Dabc to abc
-                for(int i = 0; i < 26; i++ ){   //use to delete
-                    if(out[i]==result){ 
-                        out[i] = "";
-                        statues[i] = "tombstone";  // make the statues into tombstone
-                    }else {
 
-                    }
-                }
-            }
+    // read the input
+    vector<string> v;
+
+    while (getline(X, T, ' ')) {  
+        v.push_back(T);
+    }  
+
+    // order the input --> v[i][0]
+    for (int i = 0; i < v.size(); i++)
+    {
+        // get order insert ("A")
+        if (v[i][0] == 'A')
+        {   
+            // remove the "A"
+            v[i] = v[i].erase(0,1);
+
+            // get the last letter
+            char a = v[i][v[i].size()-1];
+
+            // get the index
+            int index = hash_function(a);
+
+            // do insert
+            insert(a);
         }
-        
+        if (v[i][0] == 'D')
+        {
+            // remove the "D"
+            v[i] = v[i].erase(0,1);
+
+            // get the last letter
+            char a = v[i][v[i].size()-1];
+
+            // get the index
+            int index = hash_function(a);
+
+            // do remove
+            remove(a);
+
+            // repair
+            repair(a, index);
+        }
     }
 
-    for(int i = 0; i < 26; i++){    //print the output 
-        if(out[i].size() != 0){
-            cout<<out[i]<<" ";  
+    // print the output
+    for(int i = 0; i < 26; i++){
+        if(slot[i].size() != 0){
+            cout<<slot[i]<<" ";
         }
     }
 
