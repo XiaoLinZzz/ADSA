@@ -1,63 +1,96 @@
-#include <iostream>
-#include <string.h>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <vector>
+#include<iostream>
+#include<string>
+#include<sstream>
+#include<vector>
 using namespace std;
 
-// hash table
-class HashTable
+int main()
 {
-    public:
-    int size;
-    vector<string> *table;
-    HashTable(int size)
-    {
-        this->size = size;
-        table = new vector<string>[size];
-    }
-    int hash_key(string key)
-    {
-        int hash = 0;
-        for (int i = 0; i < key.length(); i++)
-            hash = (hash * 31 + key[i]) % size;
-        return hash;
-    }
-    void insert(string key)
-    {
-        int hash = hash_key(key);
-        table[hash].push_back(key);
-    }
-    void remove(string key)
-    {
-        int hash = hash_key(key);
-        vector<string>::iterator it;
-        for (it = table[hash].begin(); it != table[hash].end(); it++)
-            if (*it == key)
-                break;
-        table[hash].erase(it);
-    }
-    bool search(string key)
-    {
-        int hash = hash_key(key);
-        vector<string>::iterator it;
-        for (it = table[hash].begin(); it != table[hash].end(); it++)
-            if (*it == key)
-                return true;
-        return false;
-    }
-};
+    string statues[26];
+    string slot[26];
+    string S, T;
+    getline(cin, S); 
+    stringstream X(S); 
 
-int main() {
-    // insert hash table
-    HashTable *hash_table = new HashTable(26);
-    hash_table->insert("hello");
-    hash_table->insert("world");
+    // initialize the statues
+    for(int i = 0; i < 26; i++){
+        statues[i] = "never used";
+    }
 
-    // search hash table
-    if (hash_table->search("hello"))
-        cout << "hello is in the hash table" << endl;
-    else
-        cout << "hello is not in the hash table" << endl;
+    // read the input
+    vector<string> v;
+
+    while (getline(X, T, ' ')) {  
+        v.push_back(T);
+    }  
+
+    // order the input --> v[i][0]
+    for (int i = 0; i < v.size(); i++)
+    {   
+        // get order insert ("A")
+        if (v[i][0] == 'A')
+        {   
+            // remove the "A"
+            v[i] = v[i].erase(0,1);
+
+            // get the letter
+            char a = v[i][v[i].size()-1];
+            
+            // check if the letter is already in the slot
+            bool repeat = false;
+            for(int j = 0; j < 26; j++){
+                if(slot[j] == v[i]){
+                    repeat = true;
+                }
+            }
+
+            // if the letter is not in the slot
+            if(repeat == false){
+                // find the first empty slot
+                int check = 0;
+                for(int j = 0; j < 26; j++){
+                    if(slot[j].size() == 0){
+                        check = j;
+                        break;
+                    }
+                }
+
+                // add the letter in the slot
+                slot[check] = v[i];
+                statues[check] = "occupied";
+            }
+        }
+
+        // get order delete ("D")
+        else if (v[i][0] == 'D')
+        {
+            // remove the "D"
+            v[i] = v[i].erase(0,1);
+
+            // get the letter
+            char a = v[i][v[i].size()-1];
+
+            // find the slot of the letter
+            int check = 0;
+            for(int j = 0; j < 26; j++){
+                if(slot[j] == v[i]){
+                    check = j;
+                    break;
+                }
+            }
+
+            // remove the letter in the slot
+            slot[check] = "";
+            statues[check] = "tombstone";
+        }
+    }
+
+    // print the output
+    for(int i = 0; i < 26; i++){
+        if(slot[i].size() != 0){
+            cout<<slot[i]<<" ";
+        }
+    }
+
+    return 0;
 }
