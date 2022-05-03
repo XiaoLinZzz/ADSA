@@ -99,10 +99,14 @@ int main()
             // delete
             for (int j = 0; j < 26; j++)
             {   
-                if (slot[j] == v[i])
+                if (a - 97 + j <= 25)
                 {   
-                    slot[j] = "";
-                    statues[j] = "tombstone";
+                    if (slot[a - 97 + j] == v[i])
+                    {   
+                        slot[a - 97 + j] = "";
+                        statues[a - 97 + j] = "tombstone";
+                        break;
+                    }
                 }
             }
         }
