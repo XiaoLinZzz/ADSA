@@ -1,0 +1,130 @@
+#include <iostream>
+#include <string.h>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int hash_function(string s)
+{   
+    // get last elememnt of string
+    char c = s[s.length()-1];
+    return c - 97;
+}
+
+
+int main()
+{
+    string statues[26];
+    string slot[26];
+    string S, T;
+    getline(cin, S); 
+    stringstream X(S); 
+
+    // initialize the statues
+    for(int i = 0; i < 26; i++){
+        statues[i] = "never used";
+    }
+
+    // read the input
+    vector<string> v;
+
+    while (getline(X, T, ' ')) {  
+        v.push_back(T);
+    }  
+
+    // order the input --> v[i][0]
+    for (int i = 0; i < v.size(); i++)
+    {   
+        bool repeat = false;
+        // get order insert ("A")
+        if (v[i][0] == 'A')
+        {   
+            // remove the "A"
+            v[i] = v[i].erase(0,1);
+            
+            // check if the letter is already in the slot
+            for(int j = 0; j < 26; j++){
+                if(slot[j] == v[i]){
+                    repeat = true;
+                }
+            }
+
+            int check = 0;
+
+            // if the letter is not in the slot
+            if(repeat == false){
+
+                // get index
+                int index = hash_function(v[i]);
+
+                // check if the slot is empty
+                if(statues[index] == "never used" || statues[index] == "tombstone"){
+                    statues[index] = "occupied";
+                    slot[index] = v[i];
+                } else {
+                    index++;
+                }
+            }
+        }
+
+        // get order delete ("D")
+        else if (v[i][0] == 'D')
+        {
+            // remove the "D"
+            v[i] = v[i].erase(0,1);
+
+            // get the last letter
+            char a = v[i][v[i].size()-1];
+            
+            // get index
+            int index = hash_function(v[i]);
+            
+            // find the slot of the letter
+            int check = 0;
+            for(int j = 0; j < 26; j++){
+                if(slot[j] == v[i]){
+                    check = j;
+                    break;
+                }
+            }
+
+            // remove the letter in the slot
+            slot[check] = "";
+            statues[check] = "tombstone";
+
+            bool check_repair = false;
+
+            // if the hash key is not by order, repair the hash key
+            if (check_repair == false)
+            {
+                int j = index + 1;
+                if (slot[j] == ""){
+                    check_repair = true;
+                    break;
+                } 
+                else if (hash_function(slot[j]) > index) {
+                    j++;
+                }
+                else {
+                    slot[index] = slot[j];
+                    slot[j] = "";
+                    index = j;
+                }
+            }
+        }
+    }
+
+    // print the output
+    for(int i = 0; i < 26; i++){
+        if(slot[i].size() != 0){
+            cout<<slot[i]<<" ";
+        }
+    }
+
+    return 0;
+}
+
+// test: Aboa Acobra Aabba Aclassic Abee Abed Dcobra
+// test: Aaaa Accc Abbb
