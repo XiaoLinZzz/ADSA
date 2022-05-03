@@ -81,3 +81,38 @@ int main(){
 
     return 0;
 }
+
+
+
+
+
+
+
+
+/// --------------
+
+if (repeat == false)
+            {   
+                int index = hash_function(v[i]);
+                for(int i = 0; i < 26; i++) 
+                {   
+                    // if have space
+                    if(index + i <= 25) { 
+                        if(slot[index + i].size() == 0) {
+                            slot[index + i] = v[i];
+                            statues[index + i] = "occupied"; 
+                            break;
+                        }
+                    } 
+                    // if do not have space
+                    else { 
+                        if(slot[check].size() == 0) {
+                            slot[check] = v[i];
+                            statues[check] = "occupied"; 
+                            break;
+                        }else {
+                            check ++;
+                        }
+                    }
+                }
+            }

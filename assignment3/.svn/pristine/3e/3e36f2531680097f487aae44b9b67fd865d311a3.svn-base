@@ -96,17 +96,39 @@ int main()
             // get the last letter
             char a = v[i][v[i].size()-1];
             
-            // delete
-            for (int j = 0; j < 26; j++)
-            {   
-                if (a - 97 + j <= 25)
-                {   
-                    if (slot[a - 97 + j] == v[i])
-                    {   
-                        slot[a - 97 + j] = "";
-                        statues[a - 97 + j] = "tombstone";
-                        break;
-                    }
+            // get index
+            int index = hash_function(v[i]);
+            
+            // find the slot of the letter
+            int check = 0;
+            for(int j = 0; j < 26; j++){
+                if(slot[j] == v[i]){
+                    check = j;
+                    break;
+                }
+            }
+
+            // remove the letter in the slot
+            slot[check] = "";
+            statues[check] = "tombstone";
+
+            bool check_repair = false;
+
+            // if the hash key is not by order, repair the hash key
+            if (check_repair == false)
+            {
+                int j = index + 1;
+                if (slot[j] == ""){
+                    check_repair = true;
+                    break;
+                } 
+                else if (hash_function(slot[j]) > index) {
+                    j++;
+                }
+                else {
+                    slot[index] = slot[j];
+                    slot[j] = "";
+                    index = j;
                 }
             }
         }

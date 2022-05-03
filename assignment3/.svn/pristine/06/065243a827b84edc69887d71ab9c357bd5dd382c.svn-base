@@ -96,6 +96,9 @@ int main()
             // get the last letter
             char a = v[i][v[i].size()-1];
             
+            // get index
+            int index = hash_function(v[i]);
+            
             // delete
             for (int j = 0; j < 26; j++)
             {   
