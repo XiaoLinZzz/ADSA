@@ -37,39 +37,44 @@ int main()
     // order the input --> v[i][0]
     for (int i = 0; i < v.size(); i++)
     {   
+        bool repeat = false;
         // get order insert ("A")
         if (v[i][0] == 'A')
         {   
-            int out = 0;
             // remove the "A"
             v[i] = v[i].erase(0,1);
-
-            // get the letter
-            char a = v[i][v[i].size()-1];
             
             // check if the letter is already in the slot
-            bool repeat = false;
             for(int j = 0; j < 26; j++){
                 if(slot[j] == v[i]){
                     repeat = true;
                 }
             }
 
+            int check = 0;
+
             // if the letter is not in the slot
             if(repeat == false){
-                // find the first empty slot
-                int check = 0;
-                for(int j = 0; j < 26; j++){
-                    if(slot[j].size() == 0){
-                        check = j;
-                        break;
+                int index = hash_function(v[i]);
+                for(int i = 0; i < 26; i++) {
+                    if(index + i <= 25) { 
+                        if(slot[index + i].size() == 0) {
+                            slot[index + i] = v[i];
+                            statues[index + i] = "occupied"; 
+                            break;
+                        }
+                    } else { 
+                        if(slot[check].size() == 0) {
+                            slot[check] = v[i];
+                            statues[check] = "occupied"; 
+                            break;
+                        }else {
+                            check ++;
+                        }
                     }
                 }
-
-                // add the letter in the slot
-                slot[check] = v[i];
-                statues[check] = "occupied";
             }
+            // test: Aaaa Accc Abbb
         }
 
         // get order delete ("D")
@@ -96,6 +101,26 @@ int main()
             // remove the letter in the slot
             slot[check] = "";
             statues[check] = "tombstone";
+
+            bool check_repair = false;
+
+            // if the hash key is not by order, repair the hash key
+            if (check_repair == false)
+            {
+                int j = index + 1;
+                if (slot[j] == ""){
+                    check_repair = true;
+                    break;
+                } 
+                else if (hash_function(slot[j]) > index) {
+                    j++;
+                }
+                else {
+                    slot[index] = slot[j];
+                    slot[j] = "";
+                    index = j;
+                }
+            }
         }
     }
 
@@ -110,3 +135,4 @@ int main()
 }
 
 // test: Aboa Acobra Aabba Aclassic Abee Abed Dcobra
+// test: Aaaa Accc Abbb
