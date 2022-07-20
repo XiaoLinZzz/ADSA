@@ -17,3 +17,11 @@
 
 
 ### task 3:
+- Initializing an empty Hash table
+- A table slot has three different statuses: “never used”, “tombstone”, and “occupied”
+- Insert and delete
+
+
+### task 4:
+- Use BFS, DFS and MST algorithm
+- Detect a cycle in graph
